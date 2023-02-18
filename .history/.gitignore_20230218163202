@@ -1,0 +1,4 @@
+node_modules
+ntask_test.sqlite
+ntask.sqlite
+.DS_Store

@@ -1,0 +1,4 @@
+node_modules
+nodetask_test.sqlite
+nodetask.sqlite
+.DS_Store

@@ -1,0 +1,7 @@
+node_modules
+nodetask_test.sqlite
+nodetask.sqlite
+.DS_Store
+.env
+public/apidoc
+logs/*.log
