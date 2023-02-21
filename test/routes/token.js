@@ -6,24 +6,24 @@
  * iv) Request without an e-mail and password
  */
 describe("Route: Token", () => {
+    const Users = app.models.users;
     describe("Post /token", () => {
         /**
          * Clear the user table and create one valid user inside the beforeEach() callback
          * This function will be executed before each test
          * To do this, we use the model
-         * "app.db.models.Users" and its functions
+         * "app.models.users" and its functions
          * Users.destroy({where: {}}) to clean the user table and 
          * Users.create() to save a single valid user for each test execution
          */
-        const {db: { models: { Users }}} = app;
-        beforeEach(done => {
-            Users.destroy({where:{}})
-            .then(() => Users.create({
+        
+        beforeEach( async() => {
+            await Users.destroy({where:{}});
+            await Users.create({
                 name: "John Doe",
                 email: "johndoe@gmail.com",
-                password:"123!@#"
-            }))
-            .then(() => done());
+                password:"123!@#" 
+            })
         });
         describe("status 200", ()=> {
             it("returns authenticated user token", done => {
@@ -47,9 +47,7 @@ describe("Route: Token", () => {
                     password: "WRONG_PASSWORD"
                 })
                 .expect(401)
-                .end((err, res) => {
-                    done(err);
-                })
+                .end(done)
             });
             it("throws error when email does not exist", done => {
                 request.post("/token")
@@ -58,16 +56,12 @@ describe("Route: Token", () => {
                     password: "123!@#"
                 })
                 .expect(401)
-                .end((err, res) => {
-                    done(err)
-                })
+                .end(done)
             })
             it("throws error when email and password are empty", done => {
                 request.post("/token")
                 .expect(401)
-                .end((err, res) => {
-                    done(err);
-                })
+                .end(done)
             })
         });
     })

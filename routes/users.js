@@ -1,30 +1,37 @@
 module.exports = app => {
-    const Users = app.db.models.Users;
+    const Users = app.models.users;
 
     app.route("/user")
         .all(app.auth.authenticate())
-        .get((req, res) => {
-            Users.findById(req.user.id, {
-            attributes: ["id", "name", "email"]
+        .get( async(req, res) => {
+            try {
+                const result = await Users.findByPk(req.user.id, {
+                    attributes: ["id", "name", "email"]
+                });
+                if (result){
+                    res.json(result)
+                } else {
+                    res.sendStatus(404);
+                }
+            } catch(error){
+                res.status(404).json({msg: error.message});
+            }
         })
-        .then(result => res.json(result))
-        .catch(error => {
-            res.status(412).json({msg: error.message});
-            });
-        })
-        .delete((req, res) => {
-            Users.destroy({where: {id: req.user.id}})
-            .then(result => res.sendStatus(204))
-            .catch(error => {
+        .delete( async(req, res) => {
+            try {
+                await Users.destroy({where: {id: req.user.id}})
+                res.sendStatus(204);
+            } catch (error) {
                 res.status(412).json({msg: error.message});
-            });
+            }
         });
         
-    app.post("/users", (req, res) => {
-        Users.create(req.body)
-        .then(result => res.json(result))
-        .catch(error => {
-            res.status(412).json({msg: error.message});
-        });
+    app.post("/users", async(req, res) => {
+        try {
+            const result = await Users.create(req.body);
+            res.json(result)
+        } catch (error) {
+            res.sendStatus(412).json({msg: error.message});
+        }
     });
 }
