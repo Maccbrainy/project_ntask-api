@@ -7,7 +7,7 @@ module.exports = app => {
     const { jwt } = config;
     const params = {
         secretOrKey: jwt.secret,
-        jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme("authorization")
+        jwtFromRequest: ExtractJwt.fromHeader("authorization")
     };
     const strategy = new Strategy(params, (payload, done) => {
         Users.findByPk(payload.id)
