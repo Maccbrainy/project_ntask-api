@@ -3,7 +3,8 @@ const { DataTypes } = require('sequelize');
 module.exports = (app) => {
     const Users = app.db.define("Users", {
         id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
             autoIncrement:true
         },
