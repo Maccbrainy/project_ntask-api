@@ -10,7 +10,7 @@ module.exports = app => {
             if (email && password){
                 const user = await Users.findOne({where :{ email: email}});
 
-                if (bcrypt.compareSync(password, user.id)){
+                if (bcrypt.compareSync(password, user.password)){
                     const payload = {id: user.id};
                     const token = jwt.encode(payload, secret);
                     return res.json({ token });
