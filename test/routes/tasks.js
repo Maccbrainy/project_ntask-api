@@ -65,7 +65,7 @@ describe("Routes: Tasks", () => {
     describe("GET /tasks/:id", () => {
         describe("status 200", () => {
             it("returns one task", done => {
-                request.get(`/task/${fakeTask.id}`)
+                request.get(`/tasks/${fakeTask.id}`)
                 .set("Authorization", token)
                 .expect(200)
                 .end((err, res) => {
@@ -78,7 +78,7 @@ describe("Routes: Tasks", () => {
     });
     describe("status 404", () => {
         it("throws error when task not exist", done => {
-            request.get("tasks/0")
+            request.get("/tasks/0")
             .set("Authorization", token)
             .expect(404)
             .end((err, res) => done(err))
