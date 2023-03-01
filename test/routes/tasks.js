@@ -7,6 +7,7 @@ describe("Routes: Tasks", () => {
 
     let token;
     let fakeTask;
+    let theUserId;
     
     beforeEach(async () => {
         await Users.destroy({where: {}});
@@ -17,15 +18,12 @@ describe("Routes: Tasks", () => {
         });
         await Tasks.destroy({ where: {} });
         const tasks = await Tasks.bulkCreate([
-            { id: 1, title: 'Work', userId: user.id },
-            { id: 2, title: 'Study', userId: user.id }
+            { title: 'Automated Testing', userId: user.id },
+            { title: 'Testing with Mocha', userId: user.id }
         ]);
         fakeTask = tasks[0];
         token = jwt.encode({ id: user.id }, config.jwt.secret);
-
-        // console.log("/////tasks?????", tasks);
-        // console.log("@@@@@fakeTask?????", fakeTask);
-        // console.log("====token====?????", token);
+        theUserId = user.id
     });
 
     describe("GET /tasks", () => {
@@ -35,10 +33,9 @@ describe("Routes: Tasks", () => {
                 .set("Authorization", token)
                 .expect(200)
                 .end((err, res) => {
-                    console.log("====token====1?????", token);
                     expect(res.body).to.have.length(2);
-                    expect(res.body[0].title).to.eql("Work");
-                    expect(res.body[1].title).to.eql("Study");
+                    expect(res.body[0].title).to.eql("Automated Testing");
+                    expect(res.body[1].title).to.eql("Testing with Mocha");
                     done(err);
                 });
             });
@@ -50,11 +47,10 @@ describe("Routes: Tasks", () => {
             it("Creates a new task", done => {
                 request.post("/tasks")
                 .set("Authorization", token)
-                .send({title: "Run"})
+                .send({title: "Mocha, Chai and Supertest", userId: theUserId})
                 .expect(200)
                 .end((err, res) => {
-                    console.log("====token====2?????", token);
-                    expect(res.body.title).to.eql("Run");
+                    expect(res.body.title).to.eql("Mocha, Chai and Supertest");
                     expect(res.body.done).to.be.false;
                     done(err);
                 })
@@ -69,8 +65,7 @@ describe("Routes: Tasks", () => {
                 .set("Authorization", token)
                 .expect(200)
                 .end((err, res) => {
-                    console.log("====token====3?????", token);
-                    expect(res.body.title).to.eql("Study");
+                    expect(res.body.title).to.eql("Automated Testing");
                     done(err);
                 })
             })
@@ -90,7 +85,7 @@ describe("Routes: Tasks", () => {
                 request.put(`/tasks/${fakeTask.id}`)
                 .set("Authorization", token)
                 .send({
-                    title: "Practice",
+                    title: "Practicing Nodejs, Automated Testing",
                     done: true
                 })
                 .expect(204)
