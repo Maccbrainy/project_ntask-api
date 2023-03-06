@@ -9,7 +9,7 @@ consign({verbose: false})
     .then("associations.js")
     .then("auth.js")
     .then("libs/middlewares.js")
-    .then("routes")
+    .then("src/routes")
     .then("libs/boot.js")
     .into(app);
 module.exports = app;
