@@ -7,3 +7,4 @@ public/apidoc
 logs/*.log
 nTask.sqlite
 nTask_test.sqlite
+.history
