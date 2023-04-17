@@ -1,3 +1,4 @@
+const logger = require("../libs/logger");
 module.exports = {
     db: {
         database: "nTask",
