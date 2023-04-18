@@ -15,7 +15,7 @@ module.exports = app => {
             if(user){
                 return done(null, {
                     id: user.id,
-                    email: user.email
+                    email: user.email,
                 });
             }
             return done(null, false);

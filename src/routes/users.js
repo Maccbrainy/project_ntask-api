@@ -72,7 +72,7 @@ module.exports = app => {
      * @apiSuccess {String} password User encrypted password
      * @apiSuccess {Date} updated_at Update's date
      * @apiSuccess {Date} created_at Register's date
-     * @apiSuccessExample {json} Sucess
+     * @apiSuccessExample {json} Success
      * HTTP/1.1 200 OK
      * {
      *  "id": "123erfd-wer43meert-1234.jkiuyeh",
