@@ -1,6 +1,7 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const cors = require('cors');
+const compression = require("compression");
 const morgan = require('morgan');
 const helmet = require("helmet");
 const logger = require('./logger');
@@ -25,6 +26,7 @@ module.exports = app => {
         methods: ["POST", "GET", "PUT", "DELETE"],
         allowedHeaders: ["Content-Type", "authorization"]
     }));
+    app.use(compression());
     app.use(bodyParser.json());
     app.use(app.auth.initialize());
     app.use((req, res, next) => {
