@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run apidoc && nodemon --exec babel-node index.js",
+    "start": "npm run apidoc && npm run clusters",
+    "clusters": "nodemon --exec babel-node clusters.js",
     "apidoc": "apidoc i routes/ -o public/apidoc",
     "test": "NODE_ENV=test mocha test/**/*.js"
   },
